@@ -1,3 +1,9 @@
+/*
+    PokeParts.java
+    Syed Safwaan
+    Main file of the program, where the game is run from.
+*/
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -104,6 +110,7 @@ public class PokemonArena {
 
         ArrayList<String> pokeStrings = loadPokeData();
         player = new Player(playerName, pokeStrings);
+        PokeTextFormatter.speechBox("My turn!", opponent.getName(), ConsoleColors.RED, 15);
         opponent = new Opponent(opponentName, pokeStrings);
     }
 

@@ -1,3 +1,15 @@
+/*
+    PokeInterface.java
+    Syed Safwaan
+    A collection of classes used to handle the interface of the game, from colours to.
+
+    Classes:
+    - PokeConsole           output and general console management
+    - PokePrompt            input
+    - PokeTextFormatter     more output, as well as data formatting from pokemon strings
+    - ConsoleColors         colours!
+*/
+
 import java.io.IOException;
 import java.util.*;
 
@@ -87,8 +99,8 @@ class PokePrompt {
 
     }
 
-    public static int numPrompt(int range, ArrayList<String> options) {
-        PokeConsole.pokePrint(String.format(PokeConsole.color("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.color(" [1 .. %d].\n", ConsoleColors.BLACK_BOLD_BRIGHT), range), 10);
+    public static int numPrompt(ArrayList<String> options) {
+        PokeConsole.pokePrint(String.format(PokeConsole.color("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.color(" [1 .. %d].\n", ConsoleColors.BLACK_BOLD_BRIGHT), options.size()), 10);
 
         int input;
         while (true) {
@@ -101,7 +113,7 @@ class PokePrompt {
                 stdin.nextLine();
             }
 
-            if (input < 1 || input > range) {
+            if (input < 1 || input > options.size()) {
                 PokeConsole.pokePrint("Not an option in range. :(\n", ConsoleColors.RED_BOLD, 10);
                 continue;
             }
@@ -113,8 +125,8 @@ class PokePrompt {
         return input;
     }
 
-    public static int numPrompt(int range, ArrayList<String> options, String def) {
-        PokeConsole.pokePrint(String.format(PokeConsole.color("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.color(" [1 .. %d].\n", ConsoleColors.BLACK_BOLD_BRIGHT), range), 10);
+    public static int numPrompt(ArrayList<String> options, String def) {
+        PokeConsole.pokePrint(String.format(PokeConsole.color("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.color(" [1 .. %d].\n", ConsoleColors.BLACK_BOLD_BRIGHT), options.size()), 10);
 
         int input;
         while (true) {
@@ -127,13 +139,13 @@ class PokePrompt {
                 stdin.nextLine();
             }
 
-            if (input < 1 || input > range) {
+            if (input < 1 || input > options.size()) {
                 PokeConsole.pokePrint("Not an option in range. :(\n", ConsoleColors.RED_BOLD, 10);
                 continue;
             }
 
             if (ynPrompt(options.get(input - 1), def)) break;
-            else PokeConsole.pokePrint(String.format(PokeConsole.color("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.color(" [1 .. %d].\n", ConsoleColors.BLACK_BOLD_BRIGHT), range), 10);
+            else PokeConsole.pokePrint(String.format(PokeConsole.color("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.color(" [1 .. %d].\n", ConsoleColors.BLACK_BOLD_BRIGHT), options.size()), 10);
         }
 
         PokeConsole.clearConsole();

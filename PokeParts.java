@@ -2,6 +2,11 @@
     PokeParts.java
     Syed Safwaan
     A collection of classes for the parts of Pokemon, from the attacks to the actual Pokemon.
+
+    Classes:
+    - Pokemon
+    - Attack (Inner class of Pokemon)
+    - Special (Inner class of Pokemon)
 */
 
 import java.lang.*;

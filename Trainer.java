@@ -1,5 +1,13 @@
+/*
+    PokeParts.java
+    Syed Safwaan
+    Classes that pertain to the player and his properties and possible actions. Every Pokemon Master needs his
+    essential abilities.
+*/
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 abstract class Trainer {
     protected String name;
@@ -27,7 +35,7 @@ class Player extends Trainer {
 
         do {
             PokeTextFormatter.displayPokeNames(pokeNames, 4);
-            int choice = PokePrompt.numPrompt(pokeStrings.size(), pokeNames);
+            int choice = PokePrompt.numPrompt(pokeNames);
             String chosenPoke = pokeNames.get(choice - 1);
             if (chosen.contains(choice)) {
                 PokeConsole.pokePrint(String.format("You already chose %s!\n", chosenPoke), ConsoleColors.RED_BOLD, 10);
@@ -55,9 +63,10 @@ class Opponent extends Trainer {
     @Override public void makeParty(ArrayList<String> pokeStrings) {
         ArrayList<String> pokeNames = PokeTextFormatter.getPokeNames(pokeStrings);
         ArrayList<Integer> chosen = new ArrayList<>();
+        Random rng = new Random();
 
         do {
-            int choice = PokePrompt.numPrompt(pokeStrings.size(), pokeNames);
+            int choice = rng.nextInt(pokeStrings.size());
             if (!chosen.contains(choice)) {
                 chosen.add(choice);
                 PokeConsole.pokePrint(String.format("%s selected!\n", pokeNames.get(choice - 1)), ConsoleColors.GREEN_BOLD_BRIGHT, 10);
