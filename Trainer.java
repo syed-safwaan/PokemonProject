@@ -15,6 +15,7 @@ abstract class Trainer {
 
     public Trainer(String name, ArrayList<String> pokeStrings) {
         this.name = name;
+        this.pokeParty = new ArrayList<>();
         this.makeParty(pokeStrings);
     }
 
@@ -40,7 +41,7 @@ class Player extends Trainer {
             if (chosen.contains(choice)) {
                 PokeConsole.pokePrint(String.format("You already chose %s!\n", chosenPoke), ConsoleColors.RED_BOLD, 10);
             } else {
-                PokeTextFormatter.displayPokeInfo(chosenPoke, choice);
+                PokeTextFormatter.displayPokeInfo(pokeStrings.get(choice - 1), choice);
                 if (!PokePrompt.ynPrompt(chosenPoke, "y")) continue;
                 chosen.add(choice);
                 PokeConsole.pokePrint(String.format("%s selected!\n", chosenPoke), ConsoleColors.GREEN_BOLD_BRIGHT, 10);
@@ -52,7 +53,7 @@ class Player extends Trainer {
         Collections.reverse(chosen);
         for (int c : chosen) pokeParty.add(new Pokemon(pokeStrings.remove(c - 1)));
 
-        PokeConsole.pokePrint("Pokemon selected!", ConsoleColors.YELLOW_BOLD_BRIGHT, 10);
+        PokeConsole.pokePrint("All Pokemon selected!\n", ConsoleColors.YELLOW_BOLD_BRIGHT, 10);
     }
 }
 
@@ -77,6 +78,7 @@ class Opponent extends Trainer {
         Collections.reverse(chosen);
         for (int c : chosen) pokeParty.add(new Pokemon(pokeStrings.remove(c - 1)));
 
-        PokeConsole.pokePrint("Pokemon selected!", ConsoleColors.YELLOW_BOLD_BRIGHT, 10);
+        PokeConsole.pokePrint("All Pokemon selected!\n", ConsoleColors.YELLOW_BOLD_BRIGHT, 10);
+        PokePrompt.cnPrompt();
     }
 }

@@ -98,19 +98,19 @@ public class PokemonArena {
 
         String playerName = PokePrompt.qPrompt("What's your name?", "n");
 
-        PokeTextFormatter.speechBox(String.format("%s? Nice to meet you!", player.getName()), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        PokeTextFormatter.speechBox(String.format("%s? Nice to meet you!", playerName), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
         PokeTextFormatter.speechBox("This is the world of Pokemon, weird animal things that have magic properties or some garbage- uh, are really interesting! I have spent my life working with these Pokemon, and to see you here marks your beginnings as a Pokemon Master!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
         PokeTextFormatter.speechBox("Along with you, we have my grandchild here. To create some drama in this lackluster demo, he (or she, can't assume anymore really) will be your rival. Since we're too low-budget to actually generate a name for him (or her), you can give him (or her) his (or her) name. Think of it like he's (or she's) your own evil tamagotchi come to rebel.", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
 
         String opponentName = PokePrompt.qPrompt("What's your rival's name?", "n");
 
-        PokeTextFormatter.speechBox(String.format("%s? Seems rather bland... Oh well, on to the fun part, I presume.", opponent.getName()), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
-        PokeTextFormatter.speechBox("Let's get to the Pokemon already!", opponent.getName(), ConsoleColors.RED, 15);
-        PokeTextFormatter.speechBox(String.format("Shut up, %s- I mean, sure buddy! %s, since you're our main character, you can pick the Pokemon first. 4 only.", opponent.getName().substring(0, 1), player.getName()), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        PokeTextFormatter.speechBox(String.format("%s? Seems rather bland... Oh well, on to the fun part, I presume.", opponentName), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        PokeTextFormatter.speechBox("Let's get to the Pokemon already!", opponentName, ConsoleColors.RED, 15);
+        PokeTextFormatter.speechBox(String.format("Shut up, %s- I mean, sure buddy! %s, since you're our main character, you can pick the Pokemon first. 4 only.", opponentName.substring(0, 1), playerName), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
 
         ArrayList<String> pokeStrings = loadPokeData();
         player = new Player(playerName, pokeStrings);
-        PokeTextFormatter.speechBox("My turn!", opponent.getName(), ConsoleColors.RED, 15);
+        PokeTextFormatter.speechBox("My turn!", opponentName, ConsoleColors.RED, 15);
         opponent = new Opponent(opponentName, pokeStrings);
     }
 
