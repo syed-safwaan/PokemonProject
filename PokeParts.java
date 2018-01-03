@@ -33,7 +33,7 @@ class Pokemon {
 
         int numAttacks = pkscn.nextInt();
         this.attacks = new Attack[numAttacks];
-        for (int i = 0; i < numAttacks; i ++) {
+        for (int i = 0; i < numAttacks; i++) {
             attacks[i] = new Attack(pkscn.next().toUpperCase(), pkscn.nextInt(), pkscn.nextInt(), pkscn.next().toUpperCase());
         }
 
@@ -43,30 +43,52 @@ class Pokemon {
         pkscn.close();
     }
 
-    public String getName() { return this.name; }
+    public String getName() {
+        return this.name;
+    }
 
-    public String getType() { return this.type; }
+    public String getType() {
+        return this.type;
+    }
 
-    public String getResistance() { return this.resistance; }
+    public String getResistance() {
+        return this.resistance;
+    }
 
-    public String getWeakness() { return this.weakness; }
+    public String getWeakness() {
+        return this.weakness;
+    }
 
-    public int getHP() { return this.hp; }
+    public int getHP() {
+        return this.hp;
+    }
 
-    public int getHPCap() { return this.hpCap; }
+    public int getHPCap() {
+        return this.hpCap;
+    }
 
-    public Attack[] getAttacks() { return this.attacks; }
+    public Attack[] getAttacks() {
+        return this.attacks;
+    }
 
-    public boolean isDisabled() { return this.disabled; }
+    public boolean isDisabled() {
+        return this.disabled;
+    }
 
-    public void disable() { disabled = true; }
+    public void disable() {
+        disabled = true;
+    }
 
-    public boolean isStunned() { return this.stunned; }
+    public boolean isStunned() {
+        return this.stunned;
+    }
 
-    public void setStun(boolean cond) { stunned = cond; }
+    public void stun() {
+        stunned = true;
+    }
 
-    @Override public String toString() {
-        return String.format("NAME: %s - TYPE: %s - RESISTANCE: %s - WEAKNESS: %s - HP: %d - ENERGY: %d - ATTACKS: %s", this.name, this.type, this.resistance, this.weakness, this.hp, this.energy, Arrays.asList(attacks).toString());
+    public void unstun() {
+        stunned = false;
     }
 
     class Attack {
@@ -74,23 +96,31 @@ class Pokemon {
         private int cost, damage;
         private Special special;
 
-        public Attack(String name, int cost, int damage, String specialName) {
+        private Attack(String name, int cost, int damage, String specialName) {
             this.name = name;
             this.cost = cost;
             this.damage = damage;
-
+            this.special = new Special(specialName);
         }
 
-        public String getName() { return this.name; }
+        public String getName() {
+            return this.name;
+        }
 
-        public int getCost() { return this.cost; }
+        public int getCost() {
+            return this.cost;
+        }
 
-        public int getDamage() { return this.damage; }
+        public int getDamage() {
+            return this.damage;
+        }
 
-        public Special getSpecial() { return this.special; }
+        public Special getSpecial() {
+            return this.special;
+        }
 
         public boolean isAffordable() {
-            return Pokemon.this.energy - this.cost >= 0;
+            return Pokemon.this.energy >= this.cost;
         }
 
         public int calculateDamage(Pokemon other) {
@@ -99,71 +129,70 @@ class Pokemon {
                     / (Pokemon.this.type.equals(other.getResistance()) ? 2 : 1)
                     - (Pokemon.this.disabled ? 10 : 0);
         }
-
-        @Override public String toString() {
-            return String.format("NAME: %s - COST: %d - DAMAGE: %d - SPECIAL: %s", this.name, this.cost, this.damage, this.special);
-        }
     }
 
-    abstract class Special {
-        protected String name, desc;
-        protected double chance = 1;
-        protected boolean loop = false;
+    private class Special {
 
-        abstract void effect(Pokemon other);
+        private String name;
+        private double effectChance, hitChance;
+        private boolean loops;
 
-        public String getName() { return this.name; }
-
-        @Override public String toString() {
-            return name + desc;
+        private Special(String name) {
+            this.name = name;
+            switch (name) {
+                case "STUN":
+                    this.effectChance = .5;
+                    this.hitChance = 1;
+                    this.loops = false;
+                    break;
+                case "DISABLE":
+                    this.effectChance = 1;
+                    this.hitChance = 1;
+                    this.loops = false;
+                case "WILD CARD":
+                    this.effectChance = 1;
+                    this.hitChance = .5;
+                    this.loops = false;
+                case "WILD STORM":
+                    this.effectChance = 1;
+                    this.hitChance = .5;
+                    this.loops = true;
+                case "RECHARGE":
+                    this.effectChance = 1;
+                    this.hitChance = 1;
+                    this.loops = false;
+            }
         }
-    }
 
-    class Stun extends Special {
-        private String name = "STUN", desc = "";
+        public String getName() {
+            return this.name;
+        }
+
+        public double getEffectChance() {
+            return this.effectChance;
+        }
+
+        public double getHitChance() {
+            return this.hitChance;
+        }
+
+        public boolean loops() {
+            return this.loops;
+        }
 
         public void effect(Pokemon other) {
-            if (Math.random() < .5) {
-                other.setStun(true);
+            switch (this.name) {
+                case "STUN":
+                    if (Math.random() < this.effectChance) other.stun();
+                case "DISABLE":
+                    other.disable();
+                case "WILD CARD":
+                    // nothing ...
+                case "WILD STORM":
+                    // nothing ...
+                case "RECHARGE":
+                    Pokemon.this.hp = (hp + 20 > hpCap ? hpCap : hp + 20);
             }
         }
     }
-
-    class Disable extends Special {
-        private String name = "DISABLE", desc = "";
-
-        public void effect(Pokemon other) {
-            other.disable();
-        }
-    }
-
-    class WildCard extends Special {
-        private String name = "WILD CARD", desc = "";
-        private double chance = .5;
-
-        public void effect(Pokemon other) {
-            // none
-        }
-    }
-
-    class WildStorm extends Special {
-        private String name = "WILD STORM", desc = "";
-        private double chance = .5;
-        private boolean loop = true;
-
-        public void effect(Pokemon other) {
-            // none
-        }
-    }
-
-    class Recharge extends Special {
-        private String name = "RECHARGE", desc = "";
-        private double chance = 1;
-
-        public void effect(Pokemon other) {
-            Pokemon.this.hp = (Pokemon.this.hp + 20 > Pokemon.this.hpCap) ? hpCap : hp + 20;
-        }
-    }
 }
-
-

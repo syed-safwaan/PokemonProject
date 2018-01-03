@@ -81,14 +81,14 @@ public class PokemonArena {
                         "                     |___|___|_|_|_|___|\n\n";
 
         PokeConsole.clearConsole();
-        PokeConsole.pokePrint("                     ", ConsoleColors.CYAN_BACKGROUND_BRIGHT, 20);
-        PokeConsole.pokePrint(" THE PULSE PRESENTS ", ConsoleColors.CYAN_BOLD_BRIGHT, 20);
-        PokeConsole.pokePrint("                     \n", ConsoleColors.CYAN_BACKGROUND_BRIGHT, 20);
-        PokeConsole.pokePrint(pokelogo, ConsoleColors.YELLOW_BOLD_BRIGHT, 5);
-        PokeConsole.pokePrint(arenalogo, ConsoleColors.CYAN_BOLD, 5);
-        PokeConsole.pokePrint(demologo, ConsoleColors.BLACK_BOLD, 5);
+        PokeConsole.print("                     ", ConsoleColors.CYAN_BACKGROUND_BRIGHT, 20);
+        PokeConsole.print(" THE PULSE PRESENTS ", ConsoleColors.CYAN_BOLD_BRIGHT, 20);
+        PokeConsole.print("                     \n", ConsoleColors.CYAN_BACKGROUND_BRIGHT, 20);
+        PokeConsole.print(pokelogo, ConsoleColors.YELLOW_BOLD_BRIGHT, 5);
+        PokeConsole.print(arenalogo, ConsoleColors.PURPLE_BOLD_BRIGHT, 5);
+        PokeConsole.print(demologo, ConsoleColors.BLACK_BOLD, 5);
 
-        System.out.print("                 ");
+        System.out.print("                  ");
         PokePrompt.cnPrompt();
     }
 
@@ -112,6 +112,8 @@ public class PokemonArena {
         player = new Player(playerName, pokeStrings);
         PokeTextFormatter.speechBox("My turn!", opponentName, ConsoleColors.RED, 15);
         opponent = new Opponent(opponentName, pokeStrings);
+
+        PokeTextFormatter.speechBox("Now, you two battle!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
     }
 
     private static ArrayList<String> loadPokeData() {
