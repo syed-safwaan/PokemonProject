@@ -16,7 +16,7 @@ class Pokemon {
 
     private String name, type, resistance, weakness;
     private int hp, hpCap, energy;
-    private Attack[] attacks;
+    private ArrayList<Attack> attacks;
     private boolean disabled, stunned;
 
     public Pokemon(String pokeData) {
@@ -32,9 +32,9 @@ class Pokemon {
         this.weakness = pkscn.next().trim().toUpperCase();
 
         int numAttacks = pkscn.nextInt();
-        this.attacks = new Attack[numAttacks];
+        this.attacks = new ArrayList<>();
         for (int i = 0; i < numAttacks; i++) {
-            attacks[i] = new Attack(pkscn.next().toUpperCase(), pkscn.nextInt(), pkscn.nextInt(), pkscn.next().toUpperCase());
+            attacks.add(new Attack(pkscn.next().toUpperCase(), pkscn.nextInt(), pkscn.nextInt(), pkscn.hasNext() ? pkscn.next().toUpperCase() : "none"));
         }
 
         disabled = false;
@@ -67,8 +67,16 @@ class Pokemon {
         return this.hpCap;
     }
 
-    public Attack[] getAttacks() {
-        return this.attacks;
+    public int getEnergy() {
+        return this.energy;
+    }
+
+    public void useEnergy(Attack attack) {
+        energy = attack.cost;
+    }
+
+    public void recoverEnergy() {
+        energy = (energy + 10 > 50 ? 50 : energy);
     }
 
     public boolean isDisabled() {
@@ -89,6 +97,24 @@ class Pokemon {
 
     public void unstun() {
         stunned = false;
+    }
+
+    public boolean canAttack() {
+        for (Attack attack : attacks) {
+            if (this.energy >= attack.cost) return true;
+        }
+        return false;
+    }
+
+    public boolean isAlive() { return this.hp > 0; }
+
+    public void takeDamage(int damage) {
+        this.hp = (hp - damage <= 0 ? 0 : hp - damage);
+    }
+
+    public void attack(Pokemon other, int atkNum) {
+        other.takeDamage(this.attacks.get(atkNum).calculateDamage(other));
+        this.attacks.get(atkNum).special.effect(other);
     }
 
     class Attack {
@@ -128,6 +154,10 @@ class Pokemon {
                     * (Pokemon.this.type.equals(other.getWeakness()) ? 2 : 1)
                     / (Pokemon.this.type.equals(other.getResistance()) ? 2 : 1)
                     - (Pokemon.this.disabled ? 10 : 0);
+        }
+
+        public void effect(Pokemon other) {
+            this.special.effect(other);
         }
     }
 

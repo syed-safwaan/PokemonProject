@@ -145,11 +145,11 @@ class PokePrompt {
         return input;
     }
 
-    public static int numPrompt(ArrayList<String> options) {
+    public static int numPrompt(int range) {
 
         /* Returns an integer inputted by a user after proofchecking, to simplify getting input. */
 
-        PokeConsole.print(String.format(PokeConsole.color("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.color(" [1 .. %d].\n", ConsoleColors.BLACK_BOLD_BRIGHT), options.size()), 10);
+        PokeConsole.print(String.format(PokeConsole.color("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.color(" [1 .. %d].\n", ConsoleColors.BLACK_BOLD_BRIGHT), range), 10);
 
         // Integer to collect input
         int input;
@@ -167,7 +167,7 @@ class PokePrompt {
             }
 
             // Check for out of range input
-            if (input < 1 || input > options.size()) {
+            if (input < 1 || input > range) {
                 PokeConsole.print("Not an option in range. :(\n", ConsoleColors.RED_BOLD, 10);
                 continue;
             }
@@ -197,9 +197,9 @@ class PokeTextFormatter {
         /* Outputs a bunch of text structured like a text box from a game. */
 
         // Output top portion containing speaker or heading
-        PokeConsole.print("╔══════════════════════════════════════════════════════════╗\n║", ConsoleColors.BOLD, 0);
-        PokeConsole.print(String.format(" %-57s", speakerOrHeading), colour, 2);
-        PokeConsole.print("║\n╠══════════════════════════════════════════════════════════╣\n║", ConsoleColors.BOLD, 0);
+        PokeConsole.print("╔══════════════════════════════════════════════════════════╗\n║ ", ConsoleColors.BOLD, 0);
+        PokeConsole.print(String.format("%-56s", speakerOrHeading), colour, 2);
+        PokeConsole.print(" ║\n╠══════════════════════════════════════════════════════════╣\n║", ConsoleColors.BOLD, 0);
 
         // Output the actual message text
 
@@ -283,7 +283,7 @@ class PokeTextFormatter {
                 aName = pkscn.next(),
                 cost = pkscn.next(),
                 damage = pkscn.next(),
-                special = pkscn.next().trim();
+                special = (pkscn.hasNext() ? pkscn.next() : "none");
 
             // Output the attack data
             PokeConsole.print("║ ", ConsoleColors.YELLOW_BOLD, 0);
@@ -291,7 +291,7 @@ class PokeTextFormatter {
             PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
             PokeConsole.print(String.format("%-30s", String.format("DMG: %s COST: %s", damage, cost)), ConsoleColors.BLACK_BOLD, 0);
             PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-            PokeConsole.print(String.format("%-30s", String.format("SPECIAL: %s", special.isEmpty() ? "none" : special)), ConsoleColors.BLACK_BOLD, 0);
+            PokeConsole.print(String.format("%-30s", String.format("SPECIAL: %s", special)), ConsoleColors.BLACK_BOLD, 0);
             PokeConsole.print(" ║\n", ConsoleColors.YELLOW_BOLD, 0);
         }
         PokeConsole.print("╚════════════════════════════════╝\n", ConsoleColors.YELLOW_BOLD, 0);

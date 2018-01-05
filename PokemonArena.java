@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class PokemonArena {
 
-    static Trainer player;
-    static Trainer opponent;
+    private static Trainer player;
+    private static Trainer opponent;
 
     public static void main(String[] args) throws IOException {
 
@@ -35,6 +35,8 @@ public class PokemonArena {
         // ^^^^ All in here
         prepTrainers();
 
+
+
         // start battle
         // - player picks starting pokemon, enemy picks their starting pokemon
 
@@ -48,6 +50,13 @@ public class PokemonArena {
         // - if one is not, declare winner
 
         // :)
+
+        // ^^^^ All in here
+
+        do {
+            new PokeBattle(player, opponent);
+            PokeTextFormatter.speechBox("Well, that was fun!, Want to play again?", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        } while (PokePrompt.ynPrompt("another game", "n"));
     }
 
     private static void introSequence() {
@@ -93,8 +102,10 @@ public class PokemonArena {
     }
 
     private static void prepTrainers() {
+        ArrayList<String> pokeStrings = loadPokeData();
+
         PokeTextFormatter.speechBox("Hello! My name is Professor Pecan, and I'm your demo host- err, your local Pokemon professor!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
-        PokeTextFormatter.speechBox("How about we start by getting your name?", "Professor Pecan", ConsoleColors.BLACK_BOLD, 2);
+        PokeTextFormatter.speechBox("How about we start by getting your name?", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
 
         String playerName = PokePrompt.qPrompt("What's your name?", "n");
 
@@ -106,12 +117,15 @@ public class PokemonArena {
 
         PokeTextFormatter.speechBox(String.format("%s? Seems rather bland... Oh well, on to the fun part, I presume.", opponentName), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
         PokeTextFormatter.speechBox("Let's get to the Pokemon already!", opponentName, ConsoleColors.RED, 15);
-        PokeTextFormatter.speechBox(String.format("Shut up, %s- I mean, sure buddy! %s, since you're our main character, you can pick the Pokemon first. 4 only.", opponentName.substring(0, 1), playerName), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        PokeTextFormatter.speechBox(String.format("Shut up, %s- I mean, sure buddy! %s, since you're our main character, you can pick the Pokemon first.", opponentName.substring(0, 1), playerName), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        PokeTextFormatter.speechBox("What, you didn't know we don't have an actual story-based game here? We're pitting you two head to head in a Pokemon showdown.", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        PokeTextFormatter.speechBox("Well, how many Pokemon do you want to have in your party?", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
 
-        ArrayList<String> pokeStrings = loadPokeData();
-        player = new Player(playerName, pokeStrings);
+        int partySize = PokePrompt.numPrompt(pokeStrings.size() / 2);
+
+        player = new Player(playerName, pokeStrings, partySize);
         PokeTextFormatter.speechBox("My turn!", opponentName, ConsoleColors.RED, 15);
-        opponent = new Opponent(opponentName, pokeStrings);
+        opponent = new Opponent(opponentName, pokeStrings, partySize);
 
         PokeTextFormatter.speechBox("Now, you two battle!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
     }
