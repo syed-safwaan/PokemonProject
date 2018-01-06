@@ -63,6 +63,8 @@ class Pokemon {
         return this.hp;
     }
 
+
+
     public int getHPCap() {
         return this.hpCap;
     }
@@ -115,6 +117,22 @@ class Pokemon {
     public void attack(Pokemon other, int atkNum) {
         other.takeDamage(this.attacks.get(atkNum).calculateDamage(other));
         this.attacks.get(atkNum).special.effect(other);
+    }
+
+    public String status() {
+        StringBuilder bar = new StringBuilder()
+            .append(PokeConsole.color(String.format("%-13s", name), ConsoleColors.CYAN_BOLD_BRIGHT))
+            .append(PokeConsole.color("[", ConsoleColors.BLACK_BOLD));
+        int fullPixels = (int) ((double) hp / hpCap) * 30;
+        int emptyPixels = 30 - fullPixels;
+        for (int i = 0; i < fullPixels; i ++) bar.append(PokeConsole.color("█", ConsoleColors.GREEN_BOLD_BRIGHT));
+        for (int i = 0; i < emptyPixels; i ++) bar.append(PokeConsole.color("█", ConsoleColors.RED_BOLD_BRIGHT));
+        bar
+            .append(PokeConsole.color("]", ConsoleColors.BLACK_BOLD))
+            .append(PokeConsole.color(String.format(" [%3d/%-3d] ", hp, hpCap), ConsoleColors.GREEN_BOLD))
+            .append(PokeConsole.color(String.format("[%2d/50]", energy), ConsoleColors.PURPLE_BOLD_BRIGHT));
+
+        return bar.toString();
     }
 
     class Attack {
@@ -179,18 +197,22 @@ class Pokemon {
                     this.effectChance = 1;
                     this.hitChance = 1;
                     this.loops = false;
+                    break;
                 case "WILD CARD":
                     this.effectChance = 1;
                     this.hitChance = .5;
                     this.loops = false;
+                    break;
                 case "WILD STORM":
                     this.effectChance = 1;
                     this.hitChance = .5;
                     this.loops = true;
+                    break;
                 case "RECHARGE":
                     this.effectChance = 1;
                     this.hitChance = 1;
                     this.loops = false;
+                    break;
             }
         }
 

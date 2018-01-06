@@ -14,11 +14,10 @@ abstract class Trainer {
     protected ArrayList<Pokemon> pokeParty;
     protected Pokemon active;
 
-
-    public Trainer(String name, ArrayList<String> pokeStrings, int partySize) {
+    public Trainer(String name) {
         this.name = name;
         this.pokeParty = new ArrayList<>();
-        this.makeParty(pokeStrings, partySize);
+        this.active = null;
     }
 
     public String getName() { return this.name; }
@@ -26,8 +25,15 @@ abstract class Trainer {
     public ArrayList<Pokemon> getParty() { return this.pokeParty; }
 
     public boolean canFight() {
+        for (Pokemon pokemon : pokeParty) if (pokemon.isAlive()) return true;
+        return false;
+    }
+
+    public boolean canRetreat() {
+        int count = 0;
         for (Pokemon pokemon : pokeParty) {
-            if (pokemon.isAlive()) return true;
+            if (pokemon.isAlive()) count ++;
+            if (count > 1) return true;
         }
         return false;
     }
@@ -47,9 +53,10 @@ abstract class Trainer {
 
 class Player extends Trainer {
 
-    public Player(String name, ArrayList<String> pokeStrings, int partySize) { super(name, pokeStrings, partySize); }
+    public Player(String name) { super(name); }
 
     @Override public void makeParty(ArrayList<String> pokeStrings, int partySize) {
+        pokeParty.clear();
 
         // List of Pokemon names
         ArrayList<String> pokeNames = PokeMore.getPokeNames(pokeStrings);
@@ -94,6 +101,8 @@ class Player extends Trainer {
 
         PokeConsole.print("All Pokemon selected!\n", ConsoleColors.YELLOW_BOLD_BRIGHT, 10);
         PokePrompt.cnPrompt();
+
+        retreat();
     }
 
     @Override public int chooseAction() {
@@ -111,19 +120,23 @@ class Player extends Trainer {
             PokeConsole.print(String.format("%s doesn't have enough energy for any attacks!\n", active.getName()), ConsoleColors.RED_BOLD_BRIGHT, 10);
         }
 
+        if (!canRetreat()) {
+            PokeConsole.print(String.format("%s is your only Pokemon left. You can't retreat!\n", active.getName()), ConsoleColors.RED_BOLD_BRIGHT, 10);
+        }
+
         PokeConsole.print("What will you do?\n", ConsoleColors.GREEN_BOLD_BRIGHT, 10);
 
         while (true) {
             PokeConsole.print("╔═══╦═════════════════╗\n", ConsoleColors.BLACK_BOLD, 10);
             PokeConsole.print("║ 1 ║ Attack          ║\n", (active.canAttack() ? ConsoleColors.BLACK_BOLD : ConsoleColors.RED_BOLD), 10);
-            PokeConsole.print("║ 2 ║ Retreat Pokemon ║\n", ConsoleColors.BLACK_BOLD, 10);
+            PokeConsole.print("║ 2 ║ Retreat Pokemon ║\n", (canRetreat() ? ConsoleColors.BLACK_BOLD : ConsoleColors.RED_BOLD), 10);
             PokeConsole.print("║ 3 ║ Pass Turn       ║\n", ConsoleColors.BLACK_BOLD, 10);
             PokeConsole.print("╚═══╩═════════════════╝\n", ConsoleColors.BLACK_BOLD, 10);
 
             int input = PokePrompt.numPrompt(3);
 
-            if (!active.canAttack() && input == 1) {
-                PokeConsole.print("That's not possible!\n", ConsoleColors.RED_BOLD, 10);
+            if (!active.canAttack() && input == 1 || !canRetreat() &&input == 2) {
+                PokeConsole.print("You haven't got any energy to attack!\n", ConsoleColors.RED_BOLD, 10);
                 PokePrompt.cnPrompt();
                 continue;
             }
@@ -133,7 +146,16 @@ class Player extends Trainer {
     }
 
     @Override public void retreat() {
+        PokeConsole.print("What pokemon would you like to use?\n", ConsoleColors.BLUE, 10);
 
+        for (Pokemon pokemon : pokeParty) {
+            System.out.println(pokemon.status());
+        }
+
+        int choice = PokePrompt.numPrompt(pokeParty.size()) - 1;
+        active = pokeParty.get(choice);
+        PokeConsole.print(String.format("%s, I choose you!\n", active.getName()), ConsoleColors.CYAN_BRIGHT, 10);
+        PokePrompt.cnPrompt();
     }
 
     @Override public void attack(Trainer other) {
@@ -143,18 +165,21 @@ class Player extends Trainer {
 
 class Opponent extends Trainer {
 
-    public Opponent(String name, ArrayList<String> pokeStrings, int partySize) { super(name, pokeStrings, partySize); }
+    public Opponent(String name) { super(name); }
 
     @Override public void makeParty(ArrayList<String> pokeStrings, int partySize) {
-        ArrayList<String> pokeNames = PokeMore.getPokeNames(pokeStrings);
+        pokeParty.clear();
+
         ArrayList<Integer> chosen = new ArrayList<>();
         Random rng = new Random();
+
+        PokeConsole.print(String.format("%s's turn to pick Pokemon!\n", name), ConsoleColors.PURPLE_BOLD, 20);
 
         do {
             int choice = rng.nextInt(pokeStrings.size());
             if (!chosen.contains(choice)) {
                 chosen.add(choice);
-                PokeConsole.print(String.format("%s selected!\n", pokeNames.get(choice - 1)), ConsoleColors.GREEN_BOLD_BRIGHT, 10);
+                PokeConsole.print(String.format("Pokemon #%d selected!\n", chosen.size()), ConsoleColors.GREEN_BOLD_BRIGHT, 10);
             }
         } while (chosen.size() < partySize);
 
@@ -165,27 +190,18 @@ class Opponent extends Trainer {
 
         PokeConsole.print("All Pokemon selected!\n", ConsoleColors.YELLOW_BOLD_BRIGHT, 10);
         PokePrompt.cnPrompt();
+
+        retreat();
     }
 
     @Override public int chooseAction() {
-        if (active == null) {
-            return 2;
-        }
-
-        if (active.isStunned()) {
-            PokeConsole.print(String.format("%s's %s is stunned. You are forced to pass!\n", name, active.getName()), ConsoleColors.RED_BOLD_BRIGHT, 10);
-            return 3;
-        }
-
-        if (active.canAttack()) {
-            return 1;
-        }
-
-        return 3;
+        return 1;
     }
 
     @Override public void retreat() {
-
+        active = pokeParty.get(0);
+        PokeConsole.print(String.format("%s, I choose you!\n", active.getName()), ConsoleColors.RED_BRIGHT, 10);
+        PokePrompt.cnPrompt();
     }
 
     @Override public void attack(Trainer other) {

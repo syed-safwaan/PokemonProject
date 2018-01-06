@@ -4,11 +4,32 @@
     A collection of convenience methods and fields for use in the game.
 */
 
+import java.io.*;
 import java.util.ArrayList;
 
 class PokeMore {
 
     /* A collection of convenience methods for use in game. */
+
+    public static ArrayList<String> loadPokeData() {
+
+        /* Returns an ArrayList of Strings that contain Pokemon data for the Pokemon constructor to use. */
+
+        // ArrayList to hold strings
+        ArrayList<String> pokeStrings = new ArrayList<>();
+
+        // Attempt to open file and read all strings from it
+        try (BufferedReader pokeFile = new BufferedReader(new FileReader("pokedata.txt"))) {
+            int numPokes = Integer.parseInt(pokeFile.readLine());
+            for (int i = 0; i < numPokes; i ++) pokeStrings.add(pokeFile.readLine());
+        } catch (FileNotFoundException e) {
+            PokeConsole.errorShutdown("Could not find 'pokedata.txt.'");
+        } catch (IOException e) {
+            PokeConsole.errorShutdown("Unable to complete reading 'pokedata.txt.'");
+        }
+
+        return pokeStrings;
+    }
 
     public static ArrayList<String> getPokeNames(ArrayList<String> pokeStrings) {
 
@@ -21,6 +42,11 @@ class PokeMore {
 }
 
 class ConsoleColors {
+
+    /* A collection of public static Strings fields used to colour text on the console. (for ANSI-supported consoles) */
+
+    // Code courtesy of shakram02 [https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println]
+
     private static boolean isWindows = System.getProperty("os.name").toLowerCase().contains("win");
 
     // Reset
@@ -32,7 +58,7 @@ class ConsoleColors {
     public static final String UNDERLINE = isWindows ? "" : "\033[4m";  // Text Underline
     public static final String REVERSE = isWindows ? "" : "\033[7m";  // Text Underline
 
-    // Regular Colors
+    // Regular colors
     public static final String BLACK = isWindows ? "" : "\033[0;30m";   // BLACK
     public static final String RED = isWindows ? "" : "\033[0;31m";     // RED
     public static final String GREEN = isWindows ? "" : "\033[0;32m";   // GREEN
@@ -83,7 +109,7 @@ class ConsoleColors {
     public static final String CYAN_BACKGROUND = isWindows ? "" : "\033[46m";   // CYAN
     public static final String WHITE_BACKGROUND = isWindows ? "" : "\033[47m";  // WHITE
 
-    // High Intensity
+    // High intensity
     public static final String BLACK_BRIGHT = isWindows ? "" : "\033[0;90m";  // BLACK
     public static final String RED_BRIGHT = isWindows ? "" : "\033[0;91m";    // RED
     public static final String GREEN_BRIGHT = isWindows ? "" : "\033[0;92m";  // GREEN
@@ -93,7 +119,7 @@ class ConsoleColors {
     public static final String CYAN_BRIGHT = isWindows ? "" : "\033[0;96m";   // CYAN
     public static final String WHITE_BRIGHT = isWindows ? "" : "\033[0;97m";  // WHITE
 
-    // Bold High Intensity
+    // Bold and high intensity
     public static final String BLACK_BOLD_BRIGHT = isWindows ? "" : "\033[1;90m"; // BLACK
     public static final String RED_BOLD_BRIGHT = isWindows ? "" : "\033[1;91m";   // RED
     public static final String GREEN_BOLD_BRIGHT = isWindows ? "" : "\033[1;92m"; // GREEN
@@ -103,7 +129,7 @@ class ConsoleColors {
     public static final String CYAN_BOLD_BRIGHT = isWindows ? "" : "\033[1;96m";  // CYAN
     public static final String WHITE_BOLD_BRIGHT = isWindows ? "" : "\033[1;97m"; // WHITE
 
-    // High Intensity backgrounds
+    // High intensity backgrounds
     public static final String BLACK_BACKGROUND_BRIGHT = isWindows ? "" : "\033[0;100m";// BLACK
     public static final String RED_BACKGROUND_BRIGHT = isWindows ? "" : "\033[0;101m";// RED
     public static final String GREEN_BACKGROUND_BRIGHT = isWindows ? "" : "\033[0;102m";// GREEN

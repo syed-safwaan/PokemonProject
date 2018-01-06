@@ -4,144 +4,106 @@
     Main file of the program, where the game is run from.
 */
 
-import java.io.*;
-import java.util.ArrayList;
-
 public class PokemonArena {
 
+    /* The main class of the entire program. */
+
+    // Trainer fields, which are accessed through the other methods in this file
     private static Trainer player;
     private static Trainer opponent;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        // intro sequence
+        /* Entry point of the program. */
+
+        // Call the introductory stuffs
         introSequence();
+        introDialogue();
 
-        // professor pecan coming in
-        // PokeFormatter makes text boxes out of PP's speech
-
-        // PP wants to get player name
-        // - need Player subclass
-
-        // PP also wants his grandchild's name (can't assume genders)
-        // - need Enemy subclass
-
-        // player picks pokemon
-        // - arena handles this (read file, use PokeFormatter)
-
-        // enemy picks pokemon
-        // - after player, this is ez
-
-        // ^^^^ All in here
-        prepTrainers();
-
-
-
-        // start battle
-        // - player picks starting pokemon, enemy picks their starting pokemon
-
-        // BATTLE
-        // random starting trainer
-
-        // option menu for pokemon (attack, retreat, pass)
-        // - methods for each, ezpz
-
-        // after every trainer finishes an action, check if trainers are still able to fight
-        // - if one is not, declare winner
-
-        // :)
-
-        // ^^^^ All in here
-
+        // Loop to replay the game
         do {
+            // New battle instance
             new PokeBattle(player, opponent);
+
+            // After battle is over, ask if they want to replay
             PokeTextFormatter.speechBox("Well, that was fun!, Want to play again?", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
         } while (PokePrompt.ynPrompt("another game", "n"));
     }
 
     private static void introSequence() {
+
+        /* The introductory cinematic that plays at the start of the program. */
+
+        // Just some strings
+
         String pokelogo =
-                "\n                                .::.\n" +
-                        "                             .;:**'            AMC\n" +
-                        "                              `                  0\n" +
-                        "  .:XHHHHk.              db.   .;;.     dH  MX   0\n" +
-                        "oMMMMMMMMMMM       ~MM  dMMP :MMMMMR   MMM  MR      ~MRMN\n" +
-                        "QMMMMMb  \"MMX       MMMMMMP !MX' :M~   MMM MMM  .oo. XMMM 'MMM\n" +
-                        "  `MMMM.  )M> :X!Hk. MMMM   XMM.o\"  .  MMMMMMM X?XMMM MMM>!MMP\n" +
-                        "   'MMMb.dM! XM M'?M MMMMMX.`MMMMMMMM~ MM MMM XM `\" MX MMXXMM\n" +
-                        "    ~MMMMM~ XMM. .XM XM`\"MMMb.~*?**~ .MMX M t MMbooMM XMMMMMP\n" +
-                        "     ?MMM>  YMMMMMM! MM   `?MMRb.    `\"\"\"   !L\"MMMMM XM IMMM\n" +
-                        "      MMMX   \"MMMM\"  MM       ~%:           !Mh.\"\"\" dMI IMMP\n" +
-                        "      'MMM.                                             IMX\n" +
-                        "       ~M!M                                             IMP\n";
+            "\n                                .::.\n" +
+            "                             .;:**'            AMC\n" +
+            "                              `                  0\n" +
+            "  .:XHHHHk.              db.   .;;.     dH  MX   0\n" +
+            "oMMMMMMMMMMM       ~MM  dMMP :MMMMMR   MMM  MR      ~MRMN\n" +
+            "QMMMMMb  \"MMX       MMMMMMP !MX' :M~   MMM MMM  .oo. XMMM 'MMM\n" +
+            "  `MMMM.  )M> :X!Hk. MMMM   XMM.o\"  .  MMMMMMM X?XMMM MMM>!MMP\n" +
+            "   'MMMb.dM! XM M'?M MMMMMX.`MMMMMMMM~ MM MMM XM `\" MX MMXXMM\n" +
+            "    ~MMMMM~ XMM. .XM XM`\"MMMb.~*?**~ .MMX M t MMbooMM XMMMMMP\n" +
+            "     ?MMM>  YMMMMMM! MM   `?MMRb.    `\"\"\"   !L\"MMMMM XM IMMM\n" +
+            "      MMMX   \"MMMM\"  MM       ~%:           !Mh.\"\"\" dMI IMMP\n" +
+            "      'MMM.                                             IMX\n" +
+            "       ~M!M                                             IMP\n";
 
         String arenalogo =
-                "        _      _______    ________ ____  _____      _       \n" +
-                        "       / \\    |_   __ \\  |_   __  |_   \\|_   _|    / \\      \n" +
-                        "      / _ \\     | |__) |   | |_ \\_| |   \\ | |     / _ \\     \n" +
-                        "     / ___ \\    |  __ /    |  _| _  | |\\ \\| |    / ___ \\    \n" +
-                        "   _/ /   \\ \\_ _| |  \\ \\_ _| |__/ |_| |_\\   |_ _/ /   \\ \\_  \n" +
-                        "  |____| |____|____| |___|________|_____|\\____|____| |____| \n";
+            "        _      _______    ________ ____  _____      _       \n" +
+            "       / \\    |_   __ \\  |_   __  |_   \\|_   _|    / \\      \n" +
+            "      / _ \\     | |__) |   | |_ \\_| |   \\ | |     / _ \\     \n" +
+            "     / ___ \\    |  __ /    |  _| _  | |\\ \\| |    / ___ \\    \n" +
+            "   _/ /   \\ \\_ _| |  \\ \\_ _| |__/ |_| |_\\   |_ _/ /   \\ \\_  \n" +
+            "  |____| |____|____| |___|________|_____|\\____|____| |____| \n";
 
         String demologo =
-                "                        _               \n" +
-                        "                      _| |___ _____ ___ \n" +
-                        "                     | . | -_|     | . |\n" +
-                        "                     |___|___|_|_|_|___|\n\n";
+            "                        _               \n" +
+            "                      _| |___ _____ ___ \n" +
+            "                     | . | -_|     | . |\n" +
+            "                     |___|___|_|_|_|___|\n\n";
 
+        // Output those strings
         PokeConsole.clearConsole();
         PokeConsole.print("                     ", ConsoleColors.CYAN_BACKGROUND_BRIGHT, 20);
         PokeConsole.print(" THE PULSE PRESENTS ", ConsoleColors.CYAN_BOLD_BRIGHT, 20);
         PokeConsole.print("                     \n", ConsoleColors.CYAN_BACKGROUND_BRIGHT, 20);
         PokeConsole.print(pokelogo, ConsoleColors.YELLOW_BOLD_BRIGHT, 5);
-        PokeConsole.print(arenalogo, ConsoleColors.PURPLE_BOLD_BRIGHT, 5);
+        PokeConsole.print(arenalogo, ConsoleColors.RED_BOLD_BRIGHT, 5);
         PokeConsole.print(demologo, ConsoleColors.BLACK_BOLD, 5);
 
+        // Credits
+        PokeConsole.print("     Developed By Syed Safwaan [github.com/syed-safwaan]\n", ConsoleColors.CYAN_BOLD_BRIGHT, 20);
+        PokeConsole.print("     Data file courtesy of Aaron Li [github.com/dumfing]\n\n", ConsoleColors.PURPLE_BOLD_BRIGHT, 20);
+
+        // Prompt continue
         System.out.print("                  ");
         PokePrompt.cnPrompt();
     }
 
-    private static void prepTrainers() {
-        ArrayList<String> pokeStrings = loadPokeData();
+    private static void introDialogue() {
+
+        /* THe introductory dialogue that takes place before constructing battle. */
 
         PokeTextFormatter.speechBox("Hello! My name is Professor Pecan, and I'm your demo host- err, your local Pokemon professor!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
         PokeTextFormatter.speechBox("How about we start by getting your name?", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
 
-        String playerName = PokePrompt.qPrompt("What's your name?", "n");
+        // Make player from a given name
+        player = new Player(PokePrompt.qPrompt("What's your name?", "n"));
 
-        PokeTextFormatter.speechBox(String.format("%s? Nice to meet you!", playerName), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        PokeTextFormatter.speechBox(String.format("%s? Nice to meet you!", player.getName()), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
         PokeTextFormatter.speechBox("This is the world of Pokemon, weird animal things that have magic properties or some garbage- uh, are really interesting! I have spent my life working with these Pokemon, and to see you here marks your beginnings as a Pokemon Master!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
         PokeTextFormatter.speechBox("Along with you, we have my grandchild here. To create some drama in this lackluster demo, he (or she, can't assume anymore really) will be your rival. Since we're too low-budget to actually generate a name for him (or her), you can give him (or her) his (or her) name. Think of it like he's (or she's) your own evil tamagotchi come to rebel.", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
 
-        String opponentName = PokePrompt.qPrompt("What's your rival's name?", "n");
+        // Make opponet from a given name
+        opponent = new Opponent(PokePrompt.qPrompt("What's your rival's name?", "n"));
 
-        PokeTextFormatter.speechBox(String.format("%s? Seems rather bland... Oh well, on to the fun part, I presume.", opponentName), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
-        PokeTextFormatter.speechBox("Let's get to the Pokemon already!", opponentName, ConsoleColors.RED, 15);
-        PokeTextFormatter.speechBox(String.format("Shut up, %s- I mean, sure buddy! %s, since you're our main character, you can pick the Pokemon first.", opponentName.substring(0, 1), playerName), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        PokeTextFormatter.speechBox(String.format("%s? Seems rather bland... Oh well, on to the fun part, I presume.", opponent.getName()), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        PokeTextFormatter.speechBox("Let's get to the Pokemon already!", opponent.getName(), ConsoleColors.RED_BRIGHT, 15);
+        PokeTextFormatter.speechBox(String.format("Shut up, %s- I mean, sure buddy! %s, since you're our main character, you can pick the Pokemon first.", opponent.getName().substring(0, 1), player.getName()), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
         PokeTextFormatter.speechBox("What, you didn't know we don't have an actual story-based game here? We're pitting you two head to head in a Pokemon showdown.", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
-        PokeTextFormatter.speechBox("Well, how many Pokemon do you want to have in your party?", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
-
-        int partySize = PokePrompt.numPrompt(pokeStrings.size() / 2);
-
-        player = new Player(playerName, pokeStrings, partySize);
-        PokeTextFormatter.speechBox("My turn!", opponentName, ConsoleColors.RED, 15);
-        opponent = new Opponent(opponentName, pokeStrings, partySize);
-
-        PokeTextFormatter.speechBox("Now, you two battle!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
-    }
-
-    private static ArrayList<String> loadPokeData() {
-        ArrayList<String> pokeStrings = new ArrayList<>();
-
-        try (BufferedReader pokeFile = new BufferedReader(new FileReader("pokedata.txt"))) {
-            int numPokes = Integer.parseInt(pokeFile.readLine());
-            for (int i = 0; i < numPokes; i ++) pokeStrings.add(pokeFile.readLine());
-        } catch (FileNotFoundException e) {
-            PokeConsole.errorShutdown("Could not find 'pokedata.txt.'");
-        } catch (IOException e) {
-            PokeConsole.errorShutdown("Unable to complete reading 'pokedata.txt.'");
-        }
-
-        return pokeStrings;
+        PokeTextFormatter.speechBox("Enough talk, my script's done- I mean, no time to wait! Let's get battling!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
     }
 }

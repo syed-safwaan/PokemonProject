@@ -10,12 +10,8 @@
     - ConsoleColors         colours!
 */
 
-// Imports //
-
 import java.io.IOException;
 import java.util.*;
-
-// Classes
 
 class PokeConsole {
 
@@ -260,14 +256,14 @@ class PokeTextFormatter {
         PokeConsole.print("╔════════════════════════════════╗\n║ ", ConsoleColors.YELLOW_BOLD, 0);
         PokeConsole.print(String.format("%-30s", String.format("%d. %s", num, pName)), ConsoleColors.CYAN_BOLD_BRIGHT, 0);
         PokeConsole.print(" ║\n╠════════════════════════════════╣\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-        PokeConsole.print(String.format("%-30s", String.format("HP           %s", hp)), ConsoleColors.BLACK_BOLD, 0);
+        PokeConsole.print(String.format("%-30s", String.format("HP           %s", hp)), ConsoleColors.RED_BOLD_BRIGHT, 0);
         PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
         PokeConsole.print(String.format("%-30s", String.format("TYPE         %s", type)), ConsoleColors.BLACK_BOLD, 0);
         PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
 
-        PokeConsole.print(String.format("%-30s", String.format("RESISTANCE   %s", resistance.isEmpty() ? "none" : resistance)), ConsoleColors.BLACK_BOLD, 0);
+        PokeConsole.print(String.format("%-30s", String.format("RESISTANCE   %s", resistance.isEmpty() ? "none" : resistance)), ConsoleColors.GREEN_BOLD_BRIGHT, 0);
         PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-        PokeConsole.print(String.format("%-30s", String.format("WEAKNESS     %s", weakness.isEmpty() ? "none" : weakness)), ConsoleColors.BLACK_BOLD, 0);
+        PokeConsole.print(String.format("%-30s", String.format("WEAKNESS     %s", weakness.isEmpty() ? "none" : weakness)), ConsoleColors.BLUE_BOLD_BRIGHT, 0);
         PokeConsole.print(" ║\n╠════════════════════════════════╣\n", ConsoleColors.YELLOW_BOLD, 0);
 
         // Output the attacks info
@@ -289,9 +285,9 @@ class PokeTextFormatter {
             PokeConsole.print("║ ", ConsoleColors.YELLOW_BOLD, 0);
             PokeConsole.print(String.format("%-30s", String.format("ATTACK %d: %s", i, aName)), ConsoleColors.CYAN_BOLD_BRIGHT, 0);
             PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-            PokeConsole.print(String.format("%-30s", String.format("DMG: %s COST: %s", damage, cost)), ConsoleColors.BLACK_BOLD, 0);
+            PokeConsole.print(String.format("%-30s", String.format("DMG: %s COST: %s", damage, cost)), ConsoleColors.YELLOW_BOLD_BRIGHT, 0);
             PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-            PokeConsole.print(String.format("%-30s", String.format("SPECIAL: %s", special)), ConsoleColors.BLACK_BOLD, 0);
+            PokeConsole.print(String.format("%-30s", String.format("SPECIAL: %s", special)), ConsoleColors.PURPLE_BOLD_BRIGHT, 0);
             PokeConsole.print(" ║\n", ConsoleColors.YELLOW_BOLD, 0);
         }
         PokeConsole.print("╚════════════════════════════════╝\n", ConsoleColors.YELLOW_BOLD, 0);

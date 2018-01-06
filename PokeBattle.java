@@ -4,46 +4,28 @@
     Used to handle battle interactions to avoid clutter in the main file.
 */
 
+import java.util.ArrayList;
+
 class PokeBattle {
-    private Trainer a, b;
+    private Trainer player, opponent;
 
     public PokeBattle(Trainer a, Trainer b) {
-        this.a = a; this.b = b;
+        this.player = a; this.opponent = b;
+        prepTrainers();
         main();
     }
 
     private void main() {
-        determineOrder();
-        while (a.canFight() && b.canFight()) {
-            Trainer
-                p = (Math.random() < .5 ? a : b),
-                q = (p == b ? a : b);
-            execTurn(p, q);
-            execTurn(q, p);
-        }
+
     }
 
-    private void determineOrder() {
-        double randNum = Math.random();
-    }
+    private void prepTrainers() {
+        ArrayList<String> pokeStrings = PokeMore.loadPokeData();
 
-    private void execTurn(Trainer playing, Trainer other) {
-        int action = playing.chooseAction();
-        switch (action) {
-            case 1:
-                playing.attack(other);
-            case 2:
-                playing.retreat();
-            case 3:
-                playing.pass();
-        }
+        PokeConsole.print("How many Pokemon would you like in your party?\n", ConsoleColors.BLUE, 10);
+        int partySize = PokePrompt.numPrompt(pokeStrings.size() / 2);
 
-        if (!other.canFight()) {
-            // yay
-        }
-    }
-
-    class PokeBattleText {
-
+        player.makeParty(pokeStrings, partySize);
+        opponent.makeParty(pokeStrings, partySize);
     }
 }
