@@ -60,7 +60,7 @@ class PokeConsole {
         }
     }
 
-    public static void clearConsole() {
+    public static void clear() {
 
         /* Clears console of all previous output. */
 
@@ -80,7 +80,7 @@ class PokeConsole {
 
         /* Displays error message and shuts down entire program. */
 
-        clearConsole();
+        clear();
         print(String.format("Error: %s\n", err), ConsoleColors.RED_BOLD, 1);
         PokePrompt.cnPrompt();
         System.exit(0);
@@ -98,7 +98,7 @@ class PokePrompt {
 
         PokeConsole.print("Press ENTER to continue...", ConsoleColors.BLACK_BOLD_BRIGHT, 20);
         try { System.in.read(); } catch (IOException e) { System.err.println("wot"); }
-        PokeConsole.clearConsole();
+        PokeConsole.clear();
     }
 
     public static boolean ynPrompt(String given, String def) {
@@ -120,7 +120,6 @@ class PokePrompt {
         String input = stdin.nextLine().trim().toLowerCase();
         if (input.isEmpty()) input = def;
 
-        PokeConsole.clearConsole();
         return input.equals("y");
     }
 
@@ -137,7 +136,6 @@ class PokePrompt {
             input = stdin.nextLine().trim().toUpperCase();
         } while (input.isEmpty() || !ynPrompt(input, def));
 
-        PokeConsole.clearConsole();
         return input;
     }
 
@@ -172,7 +170,40 @@ class PokePrompt {
             break;
         }
 
-        PokeConsole.clearConsole();
+        return input;
+    }
+
+    public static int numPromptWithExit(int range) {
+
+        /* Returns an integer inputted by a user after proofchecking, to simplify getting input. */
+
+        PokeConsole.print(String.format(PokeConsole.color("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.color(" [1 .. %d] (0 to exit).\n", ConsoleColors.BLACK_BOLD_BRIGHT), range), 10);
+
+        // Integer to collect input
+        int input;
+
+        while (true) {
+
+            // Check for improper input to catch errors
+            try {
+                input = stdin.nextInt();
+            } catch (InputMismatchException e) {
+                PokeConsole.print("Could not parse. :(\n", ConsoleColors.RED_BOLD, 10);
+                continue;
+            } finally {
+                stdin.nextLine();
+            }
+
+            // Check for out of range input
+            if (input < 0 || input > range) {
+                PokeConsole.print("Not an option in range. :(\n", ConsoleColors.RED_BOLD, 10);
+                continue;
+            }
+
+            // Break when both tests have been passed
+            break;
+        }
+
         return input;
     }
 }
@@ -271,17 +302,17 @@ class PokeTextFormatter {
         // Number of attacks
         int numAttacks = pkscn.nextInt();
 
-        // For each set of attack data in the string
+        // For each set of pickAttack data in the string
         for (int i = 1; i <= numAttacks; i ++) {
 
-            // Extract attack data from string
+            // Extract pickAttack data from string
             String
                 aName = pkscn.next(),
                 cost = pkscn.next(),
                 damage = pkscn.next(),
                 special = (pkscn.hasNext() ? pkscn.next() : "none");
 
-            // Output the attack data
+            // Output the pickAttack data
             PokeConsole.print("║ ", ConsoleColors.YELLOW_BOLD, 0);
             PokeConsole.print(String.format("%-30s", String.format("ATTACK %d: %s", i, aName)), ConsoleColors.CYAN_BOLD_BRIGHT, 0);
             PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
