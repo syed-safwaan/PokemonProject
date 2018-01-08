@@ -111,9 +111,9 @@ class PokePrompt {
 
         // Output question preceding prompt
         PokeConsole.print("Is ", ConsoleColors.BLUE, 10);
-        PokeConsole.print(given, ConsoleColors.BLACK_BOLD, 10);
+        PokeConsole.print(given, ConsoleColors.WHITE_BOLD, 10);
         PokeConsole.print(" okay? ", ConsoleColors.BLUE, 10);
-        PokeConsole.print(String.format("[%s/%s] ", y, n), ConsoleColors.BLACK_BOLD, 10);
+        PokeConsole.print(String.format("[%s/%s] ", y, n), ConsoleColors.WHITE_BOLD, 10);
 
         // Get input, and set to default if empty
         String input = stdin.nextLine().trim().toLowerCase();
@@ -142,7 +142,7 @@ class PokePrompt {
 
         /* Returns an integer inputted by a user after proofchecking, to simplify getting input. */
 
-        PokeConsole.print(String.format(PokeConsole.colour("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.colour(" [1 .. %d].\n", ConsoleColors.BLACK_BOLD_BRIGHT), range), 10);
+        PokeConsole.print(String.format(PokeConsole.colour("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.colour(" [1 .. %d].\n", ConsoleColors.WHITE_BOLD_BRIGHT), range), 10);
 
         // Integer to collect input
         int input;
@@ -176,7 +176,7 @@ class PokePrompt {
 
         /* Returns an integer inputted by a user after proofchecking, to simplify getting input. */
 
-        PokeConsole.print(String.format(PokeConsole.colour("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.colour(" [1 .. %d] (0 to exit).\n", ConsoleColors.BLACK_BOLD_BRIGHT), range), 10);
+        PokeConsole.print(String.format(PokeConsole.colour("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.colour(" [1 .. %d] (0 to exit).\n", ConsoleColors.WHITE_BOLD_BRIGHT), range), 10);
 
         // Integer to collect input
         int input;
@@ -262,7 +262,7 @@ class PokeTextFormatter {
         // Output every option numbered, using a newline at the end of each print if the multiple is right
         for (int s = 0; s < pokeStrings.size(); s ++) {
             String name = pokeStrings.get(s).split(",")[0].toUpperCase();
-            PokeConsole.print(String.format("%-20s%s", String.format("%d. %s", s + 1, name), (s + 1) % columns == 0 || s + 1 == pokeStrings.size() ? "\n" : ""), ConsoleColors.BLACK_BOLD, 0);
+            PokeConsole.print(String.format("%-20s%s", String.format("%d. %s", s + 1, name), (s + 1) % columns == 0 || s + 1 == pokeStrings.size() ? "\n" : ""), ConsoleColors.WHITE_BOLD, 0);
         }
     }
 
@@ -288,7 +288,7 @@ class PokeTextFormatter {
         PokeConsole.print(" ║\n╠════════════════════════════════╣\n║ ", ConsoleColors.YELLOW_BOLD, 0);
         PokeConsole.print(String.format("%-30s", String.format("HP           %s", hp)), ConsoleColors.RED_BOLD_BRIGHT, 1);
         PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-        PokeConsole.print(String.format("%-30s", String.format("TYPE         %s", type)), ConsoleColors.BLACK_BOLD, 1);
+        PokeConsole.print(String.format("%-30s", String.format("TYPE         %s", type)), ConsoleColors.WHITE_BOLD, 1);
         PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
         PokeConsole.print(String.format("%-30s", String.format("RESISTANCE   %s", resistance.isEmpty() ? "none" : resistance)), ConsoleColors.GREEN_BOLD_BRIGHT, 1);
         PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);

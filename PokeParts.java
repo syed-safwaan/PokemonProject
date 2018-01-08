@@ -289,13 +289,13 @@ class Pokemon {
 
         StringBuilder bar = new StringBuilder()
             .append(PokeConsole.colour(String.format("%-13s", name), ConsoleColors.CYAN_BOLD_BRIGHT))  // name
-            .append(PokeConsole.colour("[", ConsoleColors.BLACK_BOLD));
+            .append(PokeConsole.colour("[", ConsoleColors.WHITE_BOLD));
         int fullPixels = (int) ((double) hp / hpCap * 30);  // HP left
         int emptyPixels = 30 - fullPixels;                  // HP taken
         for (int i = 0; i < fullPixels; i ++) bar.append(PokeConsole.colour("█", ConsoleColors.GREEN_BOLD_BRIGHT));
         for (int i = 0; i < emptyPixels; i ++) bar.append(PokeConsole.colour("▒", ConsoleColors.RED_BOLD_BRIGHT));
         bar
-            .append(PokeConsole.colour("]", ConsoleColors.BLACK_BOLD))
+            .append(PokeConsole.colour("]", ConsoleColors.WHITE_BOLD))
             .append(PokeConsole.colour(String.format(" [%3d/%-3d] ", hp, hpCap), ConsoleColors.GREEN_BOLD))      // HP
             .append(PokeConsole.colour(String.format("[%2d/50]", energy), ConsoleColors.PURPLE_BOLD_BRIGHT));    // energy
 

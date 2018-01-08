@@ -155,7 +155,7 @@ abstract class Trainer {
                 break;
             case Choices.RETREAT:
                 setActive();
-                PokeConsole.print(String.format("%s switches to %s!\n", name, active.getName()), ConsoleColors.BLACK_BOLD, 2);
+                PokeConsole.print(String.format("%s switches to %s!\n", name, active.getName()), ConsoleColors.WHITE_BOLD, 2);
                 break;
             case Choices.PASS:
                 pass();
@@ -307,11 +307,11 @@ class Player extends Trainer {
 
             while (true) {
                 PokeConsole.print(active.toString() + "\n", 2);
-                PokeConsole.print("╔═══╦═════════════════╗\n", ConsoleColors.BLACK_BOLD, 2);
-                PokeConsole.print("║ 1 ║ Attack          ║\n", (active.canAttack() ? ConsoleColors.BLACK_BOLD : ConsoleColors.RED_BOLD), 2);
-                PokeConsole.print("║ 2 ║ Retreat Pokemon ║\n", (canRetreat() ? ConsoleColors.BLACK_BOLD : ConsoleColors.RED_BOLD), 2);
-                PokeConsole.print("║ 3 ║ Pass Turn       ║\n", ConsoleColors.BLACK_BOLD, 2);
-                PokeConsole.print("╚═══╩═════════════════╝\n", ConsoleColors.BLACK_BOLD, 2);
+                PokeConsole.print("╔═══╦═════════════════╗\n", ConsoleColors.WHITE_BOLD, 2);
+                PokeConsole.print("║ 1 ║ Attack          ║\n", (active.canAttack() ? ConsoleColors.WHITE_BOLD : ConsoleColors.RED_BOLD), 2);
+                PokeConsole.print("║ 2 ║ Retreat Pokemon ║\n", (canRetreat() ? ConsoleColors.WHITE_BOLD : ConsoleColors.RED_BOLD), 2);
+                PokeConsole.print("║ 3 ║ Pass Turn       ║\n", ConsoleColors.WHITE_BOLD, 2);
+                PokeConsole.print("╚═══╩═════════════════╝\n", ConsoleColors.WHITE_BOLD, 2);
 
                 // Get input and make sure the choice can be made
                 choice = PokePrompt.numPrompt(3);
@@ -340,13 +340,13 @@ class Player extends Trainer {
         PokeConsole.print("What attack would you like to use?\n", ConsoleColors.BLUE, 2);
         PokeConsole.print(String.format("%s has %d energy left.\n", active.getName(), active.getEnergy()), ConsoleColors.CYAN_BOLD_BRIGHT, 2);
 
-        PokeConsole.print("╔═══╦═════════════════════════════════════════════════════════╗\n", ConsoleColors.BLACK_BOLD, 0);
+        PokeConsole.print("╔═══╦═════════════════════════════════════════════════════════╗\n", ConsoleColors.WHITE_BOLD, 0);
         for (Pokemon.Attack attack : active.getAttacks()) {
-            PokeConsole.print(String.format("║ %d ║ ", active.getAttacks().indexOf(attack) + 1), ConsoleColors.BLACK_BOLD, 2);
+            PokeConsole.print(String.format("║ %d ║ ", active.getAttacks().indexOf(attack) + 1), ConsoleColors.WHITE_BOLD, 2);
             PokeConsole.print(attack.toString(), 2);
-            PokeConsole.print(" ║\n", ConsoleColors.BLACK_BOLD, 20);
+            PokeConsole.print(" ║\n", ConsoleColors.WHITE_BOLD, 20);
         }
-        PokeConsole.print("╚═══╩═════════════════════════════════════════════════════════╝\n", ConsoleColors.BLACK_BOLD, 0);
+        PokeConsole.print("╚═══╩═════════════════════════════════════════════════════════╝\n", ConsoleColors.WHITE_BOLD, 0);
 
         // Get Player input
         newAtk = PokePrompt.numPromptWithExit(active.getAttacks().size()) - 1;
@@ -379,13 +379,13 @@ class Player extends Trainer {
                 // Output options
                 PokeConsole.print("What Pokemon would you like to use?\n", ConsoleColors.BLUE, 2);
 
-                PokeConsole.print("╔═══╦═════════════════════════════════════════════════════════════════╗\n", ConsoleColors.BLACK_BOLD, 0);
+                PokeConsole.print("╔═══╦═════════════════════════════════════════════════════════════════╗\n", ConsoleColors.WHITE_BOLD, 0);
                 for (Pokemon pokemon : pokeParty) {
-                    PokeConsole.print(String.format("║ %d ║ ", pokeParty.indexOf(pokemon) + 1), ConsoleColors.BLACK_BOLD, 2);
+                    PokeConsole.print(String.format("║ %d ║ ", pokeParty.indexOf(pokemon) + 1), ConsoleColors.WHITE_BOLD, 2);
                     PokeConsole.print(pokemon.toString(), 2);
-                    PokeConsole.print(" ║\n", ConsoleColors.BLACK_BOLD, 20);
+                    PokeConsole.print(" ║\n", ConsoleColors.WHITE_BOLD, 20);
                 }
-                PokeConsole.print("╚═══╩═════════════════════════════════════════════════════════════════╝\n", ConsoleColors.BLACK_BOLD, 2);
+                PokeConsole.print("╚═══╩═════════════════════════════════════════════════════════════════╝\n", ConsoleColors.WHITE_BOLD, 2);
 
                 // Get Player input
                 if (hasActive()) newPoke = PokePrompt.numPromptWithExit(pokeParty.size()) - 1;  // if the Player doesn't have to retreat
@@ -416,7 +416,7 @@ class Player extends Trainer {
             pokeChoice = 0;
         }
 
-        PokeConsole.print(String.format("%s, I choose you!\n", pokeParty.get(pokeChoice).getName()), ConsoleColors.BLACK_ITALICS, 2);
+        PokeConsole.print(String.format("%s, I choose you!\n", pokeParty.get(pokeChoice).getName()), ConsoleColors.WHITE_ITALICS, 2);
     }
 
     @Override public void prepAfterFaint() {
@@ -512,7 +512,7 @@ class Opponent extends Trainer {
 
         // Pick a random Pokemon in the party
         pokeChoice = (new Random()).nextInt(pokeParty.size());
-        PokeConsole.print(String.format("%s, I choose you!\n", pokeParty.get(pokeChoice).getName()), ConsoleColors.BLACK_ITALICS, 2);
+        PokeConsole.print(String.format("%s, I choose you!\n", pokeParty.get(pokeChoice).getName()), ConsoleColors.WHITE_ITALICS, 2);
     }
 
     @Override public void prepAfterFaint() {
