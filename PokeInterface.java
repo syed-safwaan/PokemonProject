@@ -308,7 +308,7 @@ class PokeTextFormatter {
                 aName = pkscn.next(),
                 cost = pkscn.next(),
                 damage = pkscn.next(),
-                special = (pkscn.hasNext() ? pkscn.next() : "none");
+                special = (pkscn.hasNext() ? pkscn.next().toUpperCase() : "NONE");
 
             // Output the pickAttack data
             PokeConsole.print("║ ", ConsoleColors.YELLOW_BOLD, 0);
@@ -316,7 +316,7 @@ class PokeTextFormatter {
             PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
             PokeConsole.print(String.format("%-30s", String.format("DMG: %s COST: %s", damage, cost)), ConsoleColors.YELLOW_BOLD_BRIGHT, 1);
             PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-            PokeConsole.print(String.format("%-30s", String.format("SPECIAL: %s", special)), ConsoleColors.PURPLE_BOLD_BRIGHT, 1);
+            PokeConsole.print(String.format("%-30s", String.format("SPECIAL: %s", special.trim().isEmpty() ? "NONE" : special)), ConsoleColors.PURPLE_BOLD_BRIGHT, 1);
             PokeConsole.print(" ║\n", ConsoleColors.YELLOW_BOLD, 0);
         }
         PokeConsole.print("╚════════════════════════════════╝\n", ConsoleColors.YELLOW_BOLD, 0);
