@@ -1,6 +1,6 @@
 /*
-    Syed Safwaan
     PokeMore.java
+    Syed Safwaan
     A collection of convenience methods and fields for use in the game.
 
     Classes:

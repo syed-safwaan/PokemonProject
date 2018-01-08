@@ -1,5 +1,5 @@
 /*
-    PokeParts.java
+    Trainer.java
     Syed Safwaan
     Classes that pertain to the player and his properties and possible actions. Every Pokemon Master needs his
     essential abilities.
