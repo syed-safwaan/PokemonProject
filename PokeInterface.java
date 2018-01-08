@@ -7,7 +7,6 @@
     - PokeConsole           output and general console management
     - PokePrompt            input
     - PokeTextFormatter     more output, as well as data formatting from pokemon strings
-    - ConsoleColors         colours!
 */
 
 import java.io.IOException;
@@ -29,7 +28,7 @@ class PokeConsole {
 
             // Print out the string character by character
             for (int c = 0; c < content.length(); c ++) {
-                Thread.sleep(/*speed*/0);
+                Thread.sleep(speed);
                 System.out.print(content.charAt(c));
             }
         } catch (InterruptedException e) {
@@ -39,7 +38,7 @@ class PokeConsole {
         }
     }
 
-    public static void print(String content, String colour, int speed) {
+    public static void print(String content, String col, int speed) {
 
         /*
          *  Prints out a given string character by character with colour as if emulating human typing.
@@ -47,12 +46,12 @@ class PokeConsole {
          */
 
         // Add the colour codes to the string
-        content = color(content, colour);
+        content = colour(content, col);
 
         // Do everything the same as overload #1
         try {
             for (int c = 0; c < content.length(); c ++) {
-                Thread.sleep(/*speed*/0);
+                Thread.sleep(speed);
                 System.out.print(content.charAt(c));
             }
         } catch (InterruptedException e) {
@@ -69,11 +68,11 @@ class PokeConsole {
         System.out.flush();
     }
 
-    public static String color(String str, String colour) {
+    public static String colour(String str, String col) {
 
         /* Returns a String with a colour code prepended and colour reset appended. */
 
-        return colour + str + ConsoleColors.RESET;
+        return col + str + ConsoleColors.RESET;
     }
 
     public static void errorShutdown(String err) {
@@ -143,7 +142,7 @@ class PokePrompt {
 
         /* Returns an integer inputted by a user after proofchecking, to simplify getting input. */
 
-        PokeConsole.print(String.format(PokeConsole.color("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.color(" [1 .. %d].\n", ConsoleColors.BLACK_BOLD_BRIGHT), range), 10);
+        PokeConsole.print(String.format(PokeConsole.colour("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.colour(" [1 .. %d].\n", ConsoleColors.BLACK_BOLD_BRIGHT), range), 10);
 
         // Integer to collect input
         int input;
@@ -177,7 +176,7 @@ class PokePrompt {
 
         /* Returns an integer inputted by a user after proofchecking, to simplify getting input. */
 
-        PokeConsole.print(String.format(PokeConsole.color("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.color(" [1 .. %d] (0 to exit).\n", ConsoleColors.BLACK_BOLD_BRIGHT), range), 10);
+        PokeConsole.print(String.format(PokeConsole.colour("Enter in an option.", ConsoleColors.YELLOW_BOLD) + PokeConsole.colour(" [1 .. %d] (0 to exit).\n", ConsoleColors.BLACK_BOLD_BRIGHT), range), 10);
 
         // Integer to collect input
         int input;
@@ -219,13 +218,13 @@ class PokeTextFormatter {
 //            "║   ║   ║   ║" +
 //            "╚═══╩═══╩═══╝";
 
-    public static void speechBox(String text, String speakerOrHeading, String colour, int speed) {
+    public static void speechBox(String text, String speakerOrHeading, String col, int speed) {
 
         /* Outputs a bunch of text structured like a text box from a game. */
 
         // Output top portion containing speaker or heading
         PokeConsole.print("╔══════════════════════════════════════════════════════════╗\n║ ", ConsoleColors.BOLD, 0);
-        PokeConsole.print(String.format("%-56s", speakerOrHeading), colour, 2);
+        PokeConsole.print(String.format("%-56s", speakerOrHeading), col, 2);
         PokeConsole.print(" ║\n╠══════════════════════════════════════════════════════════╣\n║", ConsoleColors.BOLD, 0);
 
         // Output the actual message text
@@ -240,7 +239,7 @@ class PokeTextFormatter {
             if ((curLine + word).length() + 1 > 56) {
 
                 // Get into the next line
-                PokeConsole.print(String.format("%-58s", curLine.toString()), colour, speed);
+                PokeConsole.print(String.format("%-58s", curLine.toString()), col, speed);
                 PokeConsole.print("║\n║", ConsoleColors.BOLD, 0);
                 curLine = new StringBuilder();
             }
@@ -250,7 +249,7 @@ class PokeTextFormatter {
         }
 
         // Output the last line and bottom of the box
-        PokeConsole.print(String.format("%-58s", curLine.toString()), colour, speed);
+        PokeConsole.print(String.format("%-58s", curLine.toString()), col, speed);
         PokeConsole.print("║\n╚══════════════════════════════════════════════════════════╝\n", ConsoleColors.BOLD, 0);
 
         PokePrompt.cnPrompt();
@@ -263,7 +262,7 @@ class PokeTextFormatter {
         // Output every option numbered, using a newline at the end of each print if the multiple is right
         for (int s = 0; s < pokeStrings.size(); s ++) {
             String name = pokeStrings.get(s).split(",")[0].toUpperCase();
-            PokeConsole.print(String.format("%-20s%s", String.format("%d. %s", s + 1, name), (s + 1) % columns == 0 || s + 1 == pokeStrings.size() ? "\n" : ""), ConsoleColors.BLACK_BOLD, 1);
+            PokeConsole.print(String.format("%-20s%s", String.format("%d. %s", s + 1, name), (s + 1) % columns == 0 || s + 1 == pokeStrings.size() ? "\n" : ""), ConsoleColors.BLACK_BOLD, 0);
         }
     }
 
@@ -285,16 +284,15 @@ class PokeTextFormatter {
 
         // Output the body of the card (pokemon basic info)
         PokeConsole.print("╔════════════════════════════════╗\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-        PokeConsole.print(String.format("%-30s", String.format("%d. %s", num, pName)), ConsoleColors.CYAN_BOLD_BRIGHT, 0);
+        PokeConsole.print(String.format("%-30s", String.format("%d. %s", num, pName)), ConsoleColors.CYAN_BOLD_BRIGHT, 1);
         PokeConsole.print(" ║\n╠════════════════════════════════╣\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-        PokeConsole.print(String.format("%-30s", String.format("HP           %s", hp)), ConsoleColors.RED_BOLD_BRIGHT, 0);
+        PokeConsole.print(String.format("%-30s", String.format("HP           %s", hp)), ConsoleColors.RED_BOLD_BRIGHT, 1);
         PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-        PokeConsole.print(String.format("%-30s", String.format("TYPE         %s", type)), ConsoleColors.BLACK_BOLD, 0);
+        PokeConsole.print(String.format("%-30s", String.format("TYPE         %s", type)), ConsoleColors.BLACK_BOLD, 1);
         PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-
-        PokeConsole.print(String.format("%-30s", String.format("RESISTANCE   %s", resistance.isEmpty() ? "none" : resistance)), ConsoleColors.GREEN_BOLD_BRIGHT, 0);
+        PokeConsole.print(String.format("%-30s", String.format("RESISTANCE   %s", resistance.isEmpty() ? "none" : resistance)), ConsoleColors.GREEN_BOLD_BRIGHT, 1);
         PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-        PokeConsole.print(String.format("%-30s", String.format("WEAKNESS     %s", weakness.isEmpty() ? "none" : weakness)), ConsoleColors.BLUE_BOLD_BRIGHT, 0);
+        PokeConsole.print(String.format("%-30s", String.format("WEAKNESS     %s", weakness.isEmpty() ? "none" : weakness)), ConsoleColors.BLUE_BOLD_BRIGHT, 1);
         PokeConsole.print(" ║\n╠════════════════════════════════╣\n", ConsoleColors.YELLOW_BOLD, 0);
 
         // Output the attacks info
@@ -314,11 +312,11 @@ class PokeTextFormatter {
 
             // Output the pickAttack data
             PokeConsole.print("║ ", ConsoleColors.YELLOW_BOLD, 0);
-            PokeConsole.print(String.format("%-30s", String.format("ATTACK %d: %s", i, aName)), ConsoleColors.CYAN_BOLD_BRIGHT, 0);
+            PokeConsole.print(String.format("%-30s", String.format("ATTACK %d: %s", i, aName)), ConsoleColors.CYAN_BOLD_BRIGHT, 1);
             PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-            PokeConsole.print(String.format("%-30s", String.format("DMG: %s COST: %s", damage, cost)), ConsoleColors.YELLOW_BOLD_BRIGHT, 0);
+            PokeConsole.print(String.format("%-30s", String.format("DMG: %s COST: %s", damage, cost)), ConsoleColors.YELLOW_BOLD_BRIGHT, 1);
             PokeConsole.print(" ║\n║ ", ConsoleColors.YELLOW_BOLD, 0);
-            PokeConsole.print(String.format("%-30s", String.format("SPECIAL: %s", special)), ConsoleColors.PURPLE_BOLD_BRIGHT, 0);
+            PokeConsole.print(String.format("%-30s", String.format("SPECIAL: %s", special)), ConsoleColors.PURPLE_BOLD_BRIGHT, 1);
             PokeConsole.print(" ║\n", ConsoleColors.YELLOW_BOLD, 0);
         }
         PokeConsole.print("╚════════════════════════════════╝\n", ConsoleColors.YELLOW_BOLD, 0);

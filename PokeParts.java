@@ -111,11 +111,24 @@ class Pokemon {
         this.hp = Math.max(0, hp - damage);
     }
 
+    public void recoverHP() {
+
+        /*
+         * Adds 20 to the Pokemon's HP.
+         * Overload #2
+         */
+
+        this.hp = Math.min(hpCap, hp + 20);
+    }
+
     public void recoverHP(int val) {
 
-        /* Adds to the Pokemon's HP. */
+        /*
+         * Adds a given value to the Pokemon's HP.
+         * Overload #2
+         */
 
-        PokeConsole.print(String.format("%s regained %d HP!\n", name, val), ConsoleColors.PURPLE_BOLD, 10);
+        PokeConsole.print(String.format("%s regained %d HP!\n", name, val), ConsoleColors.PURPLE_BOLD, 2);
         this.hp = Math.min(hpCap, hp + val);
     }
 
@@ -150,7 +163,7 @@ class Pokemon {
          * Overload #2
          */
 
-        PokeConsole.print(String.format("%s regained %d energy!\n", name, val), ConsoleColors.PURPLE_BOLD, 10);
+        PokeConsole.print(String.format("%s regained %d energy!\n", name, val), ConsoleColors.PURPLE_BOLD, 2);
         this.energy = Math.min(50, energy + val);
     }
 
@@ -165,7 +178,7 @@ class Pokemon {
 
         /* Disables the Pokemon. */
 
-        PokeConsole.print(String.format("%s is disabled!\n", name), ConsoleColors.PURPLE_BOLD, 10);
+        PokeConsole.print(String.format("%s is disabled!\n", name), ConsoleColors.PURPLE_BOLD, 2);
         this.disabled = true;
     }
 
@@ -180,7 +193,7 @@ class Pokemon {
 
         /* Stuns the Pokemon. */
 
-        PokeConsole.print(String.format("%s is stunned!\n", name), ConsoleColors.PURPLE_BOLD, 10);
+        PokeConsole.print(String.format("%s is stunned!\n", name), ConsoleColors.PURPLE_BOLD, 2);
         this.stunned = true;
     }
 
@@ -188,7 +201,7 @@ class Pokemon {
 
         /* Unstuns the Pokemon. */
 
-        PokeConsole.print(String.format("%s is no longer stunned!\n", name), ConsoleColors.PURPLE_BOLD, 10);
+        PokeConsole.print(String.format("%s is no longer stunned!\n", name), ConsoleColors.PURPLE_BOLD, 2);
         this.stunned = false;
     }
 
@@ -234,14 +247,14 @@ class Pokemon {
 
             // Keep attacking while the RNG allows and the other Pokemon is able to take the damage
             while (Math.random() < atk.special.hitChance && hits * dmg <= other.getHP()) {
-                PokeConsole.print(String.format("%d! ", ++ hits), ConsoleColors.PURPLE_BOLD, 10);
+                PokeConsole.print(String.format("%d! ", ++ hits), ConsoleColors.PURPLE_BOLD, 2);
             }
 
             // Damage multiplier
             dmg *= hits;
 
             // Administer damage based on number of hits
-            if (hits == 0) PokeConsole.print("No hits...\n", ConsoleColors.BLUE_BOLD, 10);
+            if (hits == 0) PokeConsole.print("No hits...\n", ConsoleColors.BLUE_BOLD, 2);
             else {
                 System.out.println();
                 other.takeDamage(dmg);
@@ -255,7 +268,7 @@ class Pokemon {
                 other.takeDamage(dmg);
                 atk.special.effect(other);
             } else {
-                PokeConsole.print("No hits...\n", ConsoleColors.BLUE_BOLD, 10);
+                PokeConsole.print("No hits...\n", ConsoleColors.BLUE_BOLD, 2);
                 dmg = 0;
             }
         }
@@ -263,10 +276,10 @@ class Pokemon {
         useEnergy(atk);
 
         // Output final results and attack success toString
-        PokeConsole.print(String.format("%s deals %d damage!\n", name, dmg), ConsoleColors.RED_BOLD_BRIGHT, 10);
+        PokeConsole.print(String.format("%s deals %d damage!\n", name, dmg), ConsoleColors.RED_BOLD_BRIGHT, 2);
         if (dmg != 0) {
-            if (atk.isSuperEffective(other)) PokeConsole.print("It's super effective!\n", ConsoleColors.GREEN_BOLD_BRIGHT, 10);
-            else if (atk.isNotEffective(other)) PokeConsole.print("It's not very effective...\n", ConsoleColors.BLUE_BOLD_BRIGHT, 10);
+            if (atk.isSuperEffective(other)) PokeConsole.print("It's super effective!\n", ConsoleColors.GREEN_BOLD_BRIGHT, 2);
+            else if (atk.isNotEffective(other)) PokeConsole.print("It's not very effective...\n", ConsoleColors.BLUE_BOLD_BRIGHT, 2);
         }
     }
 
@@ -275,16 +288,16 @@ class Pokemon {
         /* Returns a String representation of the Pokemon's current status. */
 
         StringBuilder bar = new StringBuilder()
-            .append(PokeConsole.color(String.format("%-13s", name), ConsoleColors.CYAN_BOLD_BRIGHT))  // name
-            .append(PokeConsole.color("[", ConsoleColors.BLACK_BOLD));
+            .append(PokeConsole.colour(String.format("%-13s", name), ConsoleColors.CYAN_BOLD_BRIGHT))  // name
+            .append(PokeConsole.colour("[", ConsoleColors.BLACK_BOLD));
         int fullPixels = (int) ((double) hp / hpCap * 30);  // HP left
         int emptyPixels = 30 - fullPixels;                  // HP taken
-        for (int i = 0; i < fullPixels; i ++) bar.append(PokeConsole.color("█", ConsoleColors.GREEN_BOLD_BRIGHT));
-        for (int i = 0; i < emptyPixels; i ++) bar.append(PokeConsole.color("▒", ConsoleColors.RED_BOLD_BRIGHT));
+        for (int i = 0; i < fullPixels; i ++) bar.append(PokeConsole.colour("█", ConsoleColors.GREEN_BOLD_BRIGHT));
+        for (int i = 0; i < emptyPixels; i ++) bar.append(PokeConsole.colour("▒", ConsoleColors.RED_BOLD_BRIGHT));
         bar
-            .append(PokeConsole.color("]", ConsoleColors.BLACK_BOLD))
-            .append(PokeConsole.color(String.format(" [%3d/%-3d] ", hp, hpCap), ConsoleColors.GREEN_BOLD))      // HP
-            .append(PokeConsole.color(String.format("[%2d/50]", energy), ConsoleColors.PURPLE_BOLD_BRIGHT));    // energy
+            .append(PokeConsole.colour("]", ConsoleColors.BLACK_BOLD))
+            .append(PokeConsole.colour(String.format(" [%3d/%-3d] ", hp, hpCap), ConsoleColors.GREEN_BOLD))      // HP
+            .append(PokeConsole.colour(String.format("[%2d/50]", energy), ConsoleColors.PURPLE_BOLD_BRIGHT));    // energy
 
         return bar.toString();
     }
@@ -389,10 +402,10 @@ class Pokemon {
             /* Returns a String representation of the Attack's details. */
 
             return
-                PokeConsole.color(String.format("%-16s", name), ConsoleColors.CYAN_BOLD_BRIGHT) +   // name
-                PokeConsole.color(String.format(" DMG: %-3d", damage), ConsoleColors.RED_BOLD) +    // base damage
-                PokeConsole.color(String.format(" COST: %-3d", cost), ConsoleColors.BLUE_BOLD) +    // energy cost
-                PokeConsole.color(String.format(" SPECIAL: %-10s", special.name), ConsoleColors.PURPLE_BOLD_BRIGHT);    // special
+                PokeConsole.colour(String.format("%-16s", name), ConsoleColors.CYAN_BOLD_BRIGHT) +   // name
+                PokeConsole.colour(String.format(" DMG: %-3d", damage), ConsoleColors.RED_BOLD) +    // base damage
+                PokeConsole.colour(String.format(" COST: %-3d", cost), ConsoleColors.BLUE_BOLD) +    // energy cost
+                PokeConsole.colour(String.format(" SPECIAL: %-10s", special.name), ConsoleColors.PURPLE_BOLD_BRIGHT);    // special
         }
     }
 

@@ -2,6 +2,10 @@
     Syed Safwaan
     PokeMore.java
     A collection of convenience methods and fields for use in the game.
+
+    Classes:
+    - PokeMore      honestly just 100% random
+    - ConsoleColors
 */
 
 import java.io.*;

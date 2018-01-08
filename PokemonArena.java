@@ -28,6 +28,8 @@ public class PokemonArena {
             // After battle is over, ask if they want to replay
             PokeTextFormatter.speechBox("Well, that was fun!, Want to play again?", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
         } while (PokePrompt.ynPrompt("another game", "n"));
+
+        PokeConsole.clear();
     }
 
     private static void introSequence() {
@@ -67,12 +69,12 @@ public class PokemonArena {
 
         // Output those strings
         PokeConsole.clear();
-        PokeConsole.print("                     ", ConsoleColors.CYAN_BACKGROUND_BRIGHT, 20);
-        PokeConsole.print(" THE PULSE PRESENTS ", ConsoleColors.CYAN_BOLD_BRIGHT, 20);
-        PokeConsole.print("                     \n", ConsoleColors.CYAN_BACKGROUND_BRIGHT, 20);
-        PokeConsole.print(pokelogo, ConsoleColors.YELLOW_BOLD_BRIGHT, 5);
-        PokeConsole.print(arenalogo, ConsoleColors.RED_BOLD_BRIGHT, 5);
-        PokeConsole.print(demologo, ConsoleColors.BLACK_BOLD, 5);
+        PokeConsole.print("                     ", ConsoleColors.CYAN_BACKGROUND_BRIGHT, 10);
+        PokeConsole.print(" THE PULSE PRESENTS ", ConsoleColors.CYAN_BOLD_BRIGHT, 10);
+        PokeConsole.print("                     \n", ConsoleColors.CYAN_BACKGROUND_BRIGHT, 10);
+        PokeConsole.print(pokelogo, ConsoleColors.YELLOW_BOLD_BRIGHT, 2);
+        PokeConsole.print(arenalogo, ConsoleColors.RED_BOLD_BRIGHT, 2);
+        PokeConsole.print(demologo, ConsoleColors.BLACK_BOLD, 2);
 
         // Credits
         PokeConsole.print("     Developed By Syed Safwaan [github.com/syed-safwaan]\n", ConsoleColors.CYAN_BOLD_BRIGHT, 20);
@@ -87,25 +89,25 @@ public class PokemonArena {
 
         /* THe introductory dialogue that takes place before constructing battle. */
 
-        PokeTextFormatter.speechBox("Hello! My name is Professor Pecan, and I'm your demo host- err, your local Pokemon professor!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
-        PokeTextFormatter.speechBox("How about we start by getting your name?", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        PokeTextFormatter.speechBox("Hello! My name is Professor Pecan, and I'm your demo host- err, your local Pokemon professor!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 5);
+        PokeTextFormatter.speechBox("How about we start by getting your name?", "Professor Pecan", ConsoleColors.BLACK_BOLD, 5);
 
         // Make player from a given name
         player = new Player(PokePrompt.qPrompt("What's your name?", "n"));
         PokeConsole.clear();
 
-        PokeTextFormatter.speechBox(String.format("%s? Nice to meet you!", player.getName()), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
-        PokeTextFormatter.speechBox("This is the world of Pokemon, weird animal things that have magic properties or some garbage- uh, are really interesting! I have spent my life working with these Pokemon, and to see you here marks your beginnings as a Pokemon Master!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
-        PokeTextFormatter.speechBox("Along with you, we have my grandchild here. To create some drama in this lackluster demo, he (or she, can't assume anymore really) will be your rival. Since we're too low-budget to actually generate a name for him (or her), you can give him (or her) his (or her) name. Think of it like he's (or she's) your own evil tamagotchi come to rebel.", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        PokeTextFormatter.speechBox(String.format("%s? Nice to meet you!", player.getName()), "Professor Pecan", ConsoleColors.BLACK_BOLD, 5);
+        PokeTextFormatter.speechBox("This is the world of Pokemon, weird animal things that have magic properties or some garbage- uh, are really interesting! I have spent my life working with these Pokemon, and to see you here marks your beginnings as a Pokemon Master!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 5);
+        PokeTextFormatter.speechBox("Along with you, we have my grandchild here. To create some drama in this lackluster demo, he (or she, can't assume anymore really) will be your rival. Since we're too low-budget to actually generate a name for him (or her), you can give him (or her) his (or her) name. Think of it like he's (or she's) your own evil tamagotchi come to rebel.", "Professor Pecan", ConsoleColors.BLACK_BOLD, 5);
 
         // Make opponent from a given name
         opponent = new Opponent(PokePrompt.qPrompt("What's your rival's name?", "n"));
         PokeConsole.clear();
 
-        PokeTextFormatter.speechBox(String.format("%s? Seems rather bland... Oh well, on to the fun part, I presume.", opponent.getName()), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
-        PokeTextFormatter.speechBox("Let's get to the Pokemon already!", opponent.getName(), ConsoleColors.RED_BRIGHT, 15);
-        PokeTextFormatter.speechBox(String.format("Shut up, %s- I mean, sure buddy! %s, since you're our main character, you can pick the Pokemon first.", opponent.getName().substring(0, 1), player.getName()), "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
-        PokeTextFormatter.speechBox("What, you didn't know we don't have an actual story-based game here? We're pitting you two head to head in a Pokemon showdown.", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
-        PokeTextFormatter.speechBox("Enough talk, my script's done- I mean, no time to wait! Let's get battling!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 20);
+        PokeTextFormatter.speechBox(String.format("%s? Seems rather bland... Oh well, on to the fun part, I presume.", opponent.getName()), "Professor Pecan", ConsoleColors.BLACK_BOLD, 5);
+        PokeTextFormatter.speechBox("Let's get to the Pokemon already!", opponent.getName(), ConsoleColors.RED_BRIGHT, 5);
+        PokeTextFormatter.speechBox(String.format("Shut up, %s- I mean, sure buddy! %s, since you're our main character, you can pick the Pokemon first.", opponent.getName().substring(0, 1), player.getName()), "Professor Pecan", ConsoleColors.BLACK_BOLD, 5);
+        PokeTextFormatter.speechBox("What, you didn't know we don't have an actual story-based game here? We're pitting you two head to head in a Pokemon showdown.", "Professor Pecan", ConsoleColors.BLACK_BOLD, 5);
+        PokeTextFormatter.speechBox("Enough talk, my script's done- I mean, no time to wait! Let's get battling!", "Professor Pecan", ConsoleColors.BLACK_BOLD, 5);
     }
 }
